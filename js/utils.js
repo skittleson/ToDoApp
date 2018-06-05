@@ -41,3 +41,26 @@ export function makeRequest(method, url) {
     xhr.send();
   });
 }
+
+export class ADataService {
+  constructor() {
+    if (this.constructor == ADataService) {
+      throw new Error("Abstract classes can't be instantiated.");
+    }
+  }
+  list() {
+    throw new Error("Method 'list()' must be implemented.");
+  }
+  read(id) {
+    throw new Error("Method 'read(id)' must be implemented.");
+  }
+  create(model) {
+    throw new Error("Method 'create(model)' must be implemented.");
+  }
+  update(id, model) {
+    throw new Error("Method 'update(id, model)' must be implemented.");
+  }
+  delete(id) {
+    throw new Error("Method 'delete(id)' must be implemented.");
+  }
+}

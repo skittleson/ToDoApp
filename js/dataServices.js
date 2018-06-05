@@ -1,30 +1,7 @@
-import { makeRequest } from "./utils.js";
+import { makeRequest, ADataService } from "./utils.js";
 
 export function toDoModel(id, note, completed) {
   return { id: id, note: note, completed: completed };
-}
-
-class ADataService {
-  constructor() {
-    if (this.constructor == ADataService) {
-      throw new Error("Abstract classes can't be instantiated.");
-    }
-  }
-  list() {
-    throw new Error("Method 'list()' must be implemented.");
-  }
-  read(id) {
-    throw new Error("Method 'read(id)' must be implemented.");
-  }
-  create(model) {
-    throw new Error("Method 'create(model)' must be implemented.");
-  }
-  update(id, model) {
-    throw new Error("Method 'update(id, model)' must be implemented.");
-  }
-  delete(id) {
-    throw new Error("Method 'delete(id)' must be implemented.");
-  }
 }
 
 export class RESTfulApiDataService extends ADataService {
@@ -37,7 +14,7 @@ export class RESTfulApiDataService extends ADataService {
   }
 }
 
-export class LocalStorageDataService extends ADataService {
+export class TempDataService extends ADataService {
   constructor() {
     super();
     this._data = [

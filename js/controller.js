@@ -1,5 +1,5 @@
 import {
-  LocalStorageDataService,
+  TempDataService,
   RESTfulApiDataService,
   toDoModel
 } from "./dataServices.js";
@@ -111,7 +111,7 @@ export class SettingsController {
     if (this._checkboxUseRestApi.checked) {
       dataService = new RESTfulApiDataService(this._inputRestApi.value);
     } else {
-      dataService = new LocalStorageDataService();
+      dataService = new TempDataService();
     }
     window.controller = ToDoController.Init(
       dataService,

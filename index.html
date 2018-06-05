@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To Do</title>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <link rel="stylesheet" href="css/site.css?v=1">
+</head>
+
+<body>
+    <main id="app" class="visual">
+        <header style="text-align: center;">
+            <h1>To Do
+                <label for="modal_1" class="">
+                    <i class="fa fa-cog"></i>
+                </label>
+            </h1>
+        </header>
+        <section>
+            <input type="text" id="txtNewToDo" focus placeholder="Hit 'Enter' to add" />
+        </section>
+        <section>
+            <div id="toDoList"></div>
+        </section>
+    </main>
+    <div class="modal">
+        <input id="modal_1" type="checkbox" />
+        <label for="modal_1" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Settings</h3>
+                <label for="modal_1" class="close">&times;</label>
+            </header>
+            <section class="content">
+                <label>
+                    <input type="checkbox" id="checkboxSettingsApiEnabled">
+                    <span class="checkable">Use as RESTful API?</span>
+                </label>
+                <p>In Chrome dev tools, check the network tab to confirm request structure.</p>
+                <br/>
+                <label>
+                    API Url
+                    <input type="url" id="checkboxSettingsApiUrl">
+                </label>
+            </section>
+            <footer>
+                <label for="modal_1" class="button" onclick="window.settingsController.save();">
+                    Save
+                </label>
+                <label for="modal_1" class="button dangerous">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+    <script src="js/controller.js" type="module"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+</body>
+
+</html>

@@ -33,7 +33,7 @@ export class RESTfulApiDataService extends ADataService {
     this._apiUrl = apiUrl;
   }
   async list() {
-    return await makeRequest("GET", this._apiUrl) || [];
+    return (await makeRequest("GET", this._apiUrl)) || [];
   }
 }
 
@@ -49,7 +49,7 @@ export class LocalStorageDataService extends ADataService {
   }
 
   list() {
-    return this._data;
+    return new Promise((resolve, reject) => resolve(this._data));
   }
 
   read(id) {

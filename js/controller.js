@@ -78,9 +78,9 @@ export class ToDoController {
     return c("div", ["flex-grid"], elements);
   }
 
-  render() {
+  async render() {
     this._divToDoListElement.innerHTML = "";
-    this._toDoList = this._dataService.list();
+    this._toDoList = await this._dataService.list();
     onEnter(this._inputToDoElement, ele => {
       if (ele && ele.value && ele.value.length >= 1) {
         this.add(ele.value);
@@ -109,7 +109,7 @@ export class SettingsController {
   save() {
     let dataService = null;
     if (this._checkboxUseRestApi.checked) {
-      dataService = new RESTfulApiDataService();
+      dataService = new RESTfulApiDataService(this._inputRestApi.value);
     } else {
       dataService = new LocalStorageDataService();
     }

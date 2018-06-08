@@ -1,16 +1,42 @@
-import { makeRequest, ADataService } from "./utils.js";
+import { request, ADataService } from "./utils.js";
 
 export function toDoModel(id, note, completed) {
   return { id: id, note: note, completed: completed };
 }
 
-export class RESTfulApiDataService extends ADataService {
+export class RestfulApiDataService extends ADataService {
   constructor(apiUrl) {
     super();
     this._apiUrl = apiUrl;
   }
-  async list() {
-    return (await makeRequest("GET", this._apiUrl)) || [];
+
+  list() {
+    return request({ method: "GET", url: this._apiUrl });
+  }
+
+  get(id) {
+    return request({ method: "GET", url: `${this._apiUrl}/${id}` });
+  }
+
+  delete(id) {
+    return request({ method: "DELETE", url: `${this._apiUrl}/${id}` });
+  }
+
+  update(id, model) {
+    return request({
+      method: "PUT",
+      url: `${this._apiUrl}/${id}`,
+      payload: JSON.stringify(model)
+    });
+  }
+
+  create(model) {
+    const self = this;
+    return request({
+      method: "POST",
+      url: `${this._apiUrl}`,
+      payload: JSON.stringify(model)
+    });
   }
 }
 
@@ -29,27 +55,40 @@ export class TempDataService extends ADataService {
     return new Promise((resolve, reject) => resolve(this._data));
   }
 
-  read(id) {
-    return this._data.find(x => x.id == id);
+  get(id) {
+    return new Promise((resolve, reject) =>
+      resolve(this._data.find(x => x.id == id))
+    );
   }
 
   delete(id) {
-    let removeIndex = this._data.map(item => item.id).indexOf(id);
-    ~removeIndex && this._data.splice(removeIndex, 1);
-  }
-
-  update(id, model) {
-    this._data = this._data.map(item => {
-      if (item.id == id) return model;
-      return item;
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      let removeIndex = self._data.map(item => item.id).indexOf(id);
+      ~removeIndex && self._data.splice(removeIndex, 1);
+      resolve();
     });
   }
 
-  create(text) {
-    let ids = this._data.map(x => x.id);
-    var nextId = (Math.max(...ids) || 0) + 1;
-    var model = toDoModel(nextId, text, false);
-    this._data.push(model);
-    return model;
+  update(id, model) {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      self._data = self._data.map(item => {
+        if (item.id == id) return model;
+        return item;
+      });
+      resolve();
+    });
+  }
+
+  create(model) {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      let ids = self._data.map(x => x.id);
+      var nextId = (Math.max(...ids) || 0) + 1;
+      model.id = nextId;
+      self._data.push(model);
+      resolve(model);
+    });
   }
 }

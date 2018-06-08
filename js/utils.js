@@ -1,4 +1,6 @@
 export function onEnter(ele, func) {
+  let isFunction = func && {}.toString.call(func) === "[object Function]";
+  if (!isFunction) throw new Error("Must pass a function onEnter function");
   ele.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
@@ -7,21 +9,37 @@ export function onEnter(ele, func) {
   });
 }
 
-export function c(elementName, classes = [], elements = []) {
+export function make(
+  elementName,
+  config = {
+    classes: [],
+    elements: [],
+    type,
+    data,
+    html,
+    onclick
+  }
+) {
   let element = document.createElement(elementName);
-  if (classes) {
-    classes.forEach(x => element.classList.add(x));
+  if (config.classes) {
+    config.classes.forEach(x => element.classList.add(x));
   }
-  if (elements) {
-    elements.forEach(x => element.appendChild(x));
+  if (config.elements) {
+    config.elements.forEach(x => element.appendChild(x));
   }
+  if (config.type) element.type = config.type;
+  if (config.data) element.data = config.data;
+  if (config.html) element.innerHTML = config.html;
+  if (config.onclick) element.onclick = config.onclick;
   return element;
 }
 
-export function makeRequest(method, url) {
+export function request(config = { method, url, payload: null }) {
+  if (!config.method) throw Error("method undefined in request");
+  if (!config.url) throw Error("url undefined in request");
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+    xhr.open(config.method, config.url);
     xhr.onload = function() {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
@@ -38,7 +56,7 @@ export function makeRequest(method, url) {
         statusText: xhr.statusText
       });
     };
-    xhr.send();
+    xhr.send(config.payload);
   });
 }
 
@@ -51,7 +69,7 @@ export class ADataService {
   list() {
     throw new Error("Method 'list()' must be implemented.");
   }
-  read(id) {
+  get(id) {
     throw new Error("Method 'read(id)' must be implemented.");
   }
   create(model) {

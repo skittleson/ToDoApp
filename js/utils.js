@@ -34,7 +34,7 @@ export function make(
   return element;
 }
 
-export function request(config = { method, url, payload: null }) {
+export function asyncXhrJsonRequest(config = { method, url, payload: null }) {
   if (!config.method) throw Error("method undefined in request");
   if (!config.url) throw Error("url undefined in request");
   return new Promise(function(resolve, reject) {
@@ -42,7 +42,7 @@ export function request(config = { method, url, payload: null }) {
     xhr.open(config.method, config.url);
     xhr.onload = function() {
       if (this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
+        resolve(JSON.parse(xhr.response));
       } else {
         reject({
           status: this.status,

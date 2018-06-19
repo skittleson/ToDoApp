@@ -1,4 +1,4 @@
-import { request, ADataService } from "./utils.js";
+import { asyncXhrJsonRequest, ADataService } from "./utils.js";
 
 export function toDoModel(id, note, completed) {
   return { id: id, note: note, completed: completed };
@@ -11,19 +11,19 @@ export class RestfulApiDataService extends ADataService {
   }
 
   list() {
-    return request({ method: "GET", url: this._apiUrl });
+    return asyncXhrJsonRequest({ method: "GET", url: this._apiUrl });
   }
 
   get(id) {
-    return request({ method: "GET", url: `${this._apiUrl}/${id}` });
+    return asyncXhrJsonRequest({ method: "GET", url: `${this._apiUrl}/${id}` });
   }
 
   delete(id) {
-    return request({ method: "DELETE", url: `${this._apiUrl}/${id}` });
+    return asyncXhrJsonRequest({ method: "DELETE", url: `${this._apiUrl}/${id}` });
   }
 
   update(id, model) {
-    return request({
+    return asyncXhrJsonRequest({
       method: "PUT",
       url: `${this._apiUrl}/${id}`,
       payload: JSON.stringify(model)
@@ -32,7 +32,7 @@ export class RestfulApiDataService extends ADataService {
 
   create(model) {
     const self = this;
-    return request({
+    return asyncXhrJsonRequest({
       method: "POST",
       url: `${this._apiUrl}`,
       payload: JSON.stringify(model)

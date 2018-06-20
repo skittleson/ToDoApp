@@ -5,28 +5,45 @@ export function toDoModel(id, note, completed) {
 }
 
 export class RestfulApiDataService extends ADataService {
-  constructor(apiUrl) {
+  constructor(apiUri, apiKey) {
     super();
-    this._apiUrl = apiUrl;
+    this._apiUrl = apiUri;
+    this._headers = [];
+    if (apiKey && apiKey.length > 0) {
+      this._headers.push({ key: "x-api-key", value: apiKey });
+    }
   }
 
   list() {
-    return asyncXhrJsonRequest({ method: "GET", url: this._apiUrl });
+    return asyncXhrJsonRequest({
+      method: "GET",
+      url: this._apiUrl,
+      headers: this._headers
+    });
   }
 
   get(id) {
-    return asyncXhrJsonRequest({ method: "GET", url: `${this._apiUrl}?id=${id}` });
+    return asyncXhrJsonRequest({
+      method: "GET",
+      url: `${this._apiUrl}?id=${id}`,
+      headers: this._headers
+    });
   }
 
   delete(id) {
-    return asyncXhrJsonRequest({ method: "DELETE", url: `${this._apiUrl}?id=${id}` });
+    return asyncXhrJsonRequest({
+      method: "DELETE",
+      url: `${this._apiUrl}?id=${id}`,
+      headers: this._headers
+    });
   }
 
   update(id, model) {
     return asyncXhrJsonRequest({
       method: "PUT",
       url: `${this._apiUrl}?id=${id}`,
-      payload: JSON.stringify(model)
+      payload: JSON.stringify(model),
+      headers: this._headers
     });
   }
 
@@ -34,7 +51,8 @@ export class RestfulApiDataService extends ADataService {
     return asyncXhrJsonRequest({
       method: "POST",
       url: `${this._apiUrl}`,
-      payload: JSON.stringify(model)
+      payload: JSON.stringify(model),
+      headers: this._headers
     });
   }
 }

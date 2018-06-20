@@ -34,15 +34,27 @@ export function make(
   return element;
 }
 
-export function asyncXhrJsonRequest(config = { method, url, payload: null }) {
+export function asyncXhrJsonRequest(
+  config = { method, url, payload: null, headers: [] }
+) {
   if (!config.method) throw Error("method undefined in request");
   if (!config.url) throw Error("url undefined in request");
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open(config.method, config.url);
+    debugger;
+    if (config.headers) {
+      config.headers.forEach(x => {
+        xhr.setRequestHeader(x.key, x.value);
+      });
+    }
     xhr.onload = function() {
       if (this.status >= 200 && this.status < 300) {
-        resolve(JSON.parse(xhr.response));
+        if (xhr.response && xhr.response.length > 0) {
+          resolve(JSON.parse(xhr.response));
+        } else {
+          resove();
+        }
       } else {
         reject({
           status: this.status,

@@ -2,15 +2,16 @@ import { TempDataService, RestfulApiDataService } from "./dataServices.js";
 import { ToDoController } from "./toDoController.js";
 
 export class SettingsController {
-  static Init(checkboxUseRestApi, inputRestApi) {
+  static initialize(checkboxUseRestApi, inputRestApi) {
     return new SettingsController(checkboxUseRestApi, inputRestApi);
   }
 
   constructor(checkboxUseRestApi, inputRestApi) {
     this._checkboxUseRestApi = checkboxUseRestApi;
     this._inputRestApi = inputRestApi;
-    if (!this._checkboxUseRestApi)
+    if (!this._checkboxUseRestApi) {
       throw new Error("Missing checkbox use rest api");
+    }
     if (!this._inputRestApi) throw new Error("Missing input rest api");
   }
 
@@ -23,14 +24,14 @@ export class SettingsController {
   render() {
     let dataService = null;
     this._checkboxUseRestApi.checked = this.isRestfulApiServiceEnabled;
-    this._inputRestApi.value = this.restfulApiUri ;
+    this._inputRestApi.value = this.restfulApiUri;
     if (this.isRestfulApiServiceEnabled) {
       console.log(`restful api service enabled: ${this.restfulApiUri}`);
       dataService = new RestfulApiDataService(this.restfulApiUri);
     } else {
       dataService = new TempDataService();
     }
-    window.controller = ToDoController.Init(
+    window.controller = ToDoController.initialize(
       dataService,
       document.getElementById("txtNewToDo"),
       document.getElementById("toDoList")

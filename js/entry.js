@@ -1,6 +1,6 @@
 import { SettingsController } from "./settingsController.js";
 
-window.settingsController = SettingsController.Init(
+window.settingsController = SettingsController.initialize(
   document.getElementById("checkboxSettingsApiEnabled"),
   document.getElementById("checkboxSettingsApiUrl")
 );

@@ -8,7 +8,7 @@ import { onEnter, make } from "./utils.js";
 ("use strict");
 
 export class ToDoController {
-  static Init(dataService, inputToDoElement, divToDoListElement) {
+  static initialize(dataService, inputToDoElement, divToDoListElement) {
     return new ToDoController(
       dataService,
       inputToDoElement,

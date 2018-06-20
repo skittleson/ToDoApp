@@ -73,7 +73,7 @@ export class ToDoController {
       wrapNote.classList.add("strike");
     }
     let buttonDelete = make("span", {
-      classes: ["pseudo"],
+      classes: ["pseudo", "cursor-pointer"],
       html: "x",
       data: todo,
       onclick: ele => self.delete(ele)
@@ -90,8 +90,9 @@ export class ToDoController {
   }
 
   async render() {
-    this._divToDoListElement.innerHTML = "";
+    this._divToDoListElement.innerHTML = "Loading...";
     this._toDoList = await this._dataService.list();
+    this._divToDoListElement.innerHTML = "";
     onEnter(this._inputToDoElement, ele => {
       if (ele && ele.value && ele.value.length >= 1) {
         this.add(ele.value);

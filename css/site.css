@@ -51,3 +51,7 @@ section {
     float: right;
     font-size: 90%;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

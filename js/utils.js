@@ -42,7 +42,6 @@ export function asyncXhrJsonRequest(
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open(config.method, config.url);
-    debugger;
     if (config.headers) {
       config.headers.forEach(x => {
         xhr.setRequestHeader(x.key, x.value);

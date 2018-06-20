@@ -15,23 +15,22 @@ export class RestfulApiDataService extends ADataService {
   }
 
   get(id) {
-    return asyncXhrJsonRequest({ method: "GET", url: `${this._apiUrl}/${id}` });
+    return asyncXhrJsonRequest({ method: "GET", url: `${this._apiUrl}?id=${id}` });
   }
 
   delete(id) {
-    return asyncXhrJsonRequest({ method: "DELETE", url: `${this._apiUrl}/${id}` });
+    return asyncXhrJsonRequest({ method: "DELETE", url: `${this._apiUrl}?id=${id}` });
   }
 
   update(id, model) {
     return asyncXhrJsonRequest({
       method: "PUT",
-      url: `${this._apiUrl}/${id}`,
+      url: `${this._apiUrl}?id=${id}`,
       payload: JSON.stringify(model)
     });
   }
 
   create(model) {
-    const self = this;
     return asyncXhrJsonRequest({
       method: "POST",
       url: `${this._apiUrl}`,

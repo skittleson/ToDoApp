@@ -45,8 +45,8 @@ export class ToDoController {
   }
 
   async add(text) {
-    let model = await this._dataService.create(toDoModel(0, text, false));
-    this._divToDoListElement.appendChild(this.createEntry(model));
+    await this._dataService.create(toDoModel(0, text, false));
+    await this.render();
   }
 
   createEntry(todo) {

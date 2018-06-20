@@ -18,7 +18,7 @@ export class SettingsController {
   save() {
     this.isRestfulApiServiceEnabled = this._checkboxUseRestApi.checked;
     this.restfulApiUri = this._inputRestApi.value;
-    this.render();
+    location.reload();
   }
 
   render() {
@@ -31,7 +31,7 @@ export class SettingsController {
     } else {
       dataService = new TempDataService();
     }
-    window.controller = ToDoController.initialize(
+    this._toDoController = ToDoController.initialize(
       dataService,
       document.getElementById("txtNewToDo"),
       document.getElementById("toDoList")

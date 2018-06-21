@@ -52,7 +52,7 @@ export function asyncXhrJsonRequest(
         if (xhr.response && xhr.response.length > 0) {
           resolve(JSON.parse(xhr.response));
         } else {
-          resove();
+          resolve();
         }
       } else {
         reject({
